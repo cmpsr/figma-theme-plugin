@@ -16,12 +16,9 @@ export class Colors extends Page {
       b,
     )}`.toUpperCase();
 
-  isColorLayer = (layerName: string) =>
-    layerName?.startsWith(THEME_PREFIXES.COLORS);
-
   get = () => {
     this.traversePage((children: any) => {
-      if (this.isColorLayer(children?.name)) {
+      if (this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.COLORS)) {
         const colorToken = children.name.replace(THEME_PREFIXES.COLORS, '');
         const colorRgb = children.fills?.[0]?.color;
         const colorHex = this.rgbToHex(colorRgb.r, colorRgb.g, colorRgb.b);

@@ -6,12 +6,10 @@ export class Radius extends Page {
   constructor() {
     super(PAGE_IDS.RADIUS);
   }
-  isRadiusLayer = (layerName: string) =>
-    layerName?.startsWith(THEME_PREFIXES.RADIUS);
 
   get = () => {
     this.traversePage((children: any) => {
-      if (this.isRadiusLayer(children?.name)) {
+      if (this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.RADIUS)) {
         const radiusToken = children.name.replace(THEME_PREFIXES.RADIUS, '');
         this.data[radiusToken] = convertPxToRem(children.cornerRadius);
       }

@@ -6,12 +6,10 @@ export class Spacings extends Page {
   constructor() {
     super(PAGE_IDS.SPACINGS);
   }
-  isSpacingLayer = (layerName: string) =>
-    layerName?.startsWith(THEME_PREFIXES.SPACINGS);
 
   get = () => {
     this.traversePage((children: any) => {
-      if (this.isSpacingLayer(children?.name)) {
+      if (this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.SPACINGS)) {
         const spacingToken = children.name.replace(THEME_PREFIXES.SPACINGS, '');
         this.data[spacingToken] = convertPxToRem(children.width);
       }

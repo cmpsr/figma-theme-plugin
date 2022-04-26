@@ -6,9 +6,6 @@ export class Elevations extends Page {
     super(PAGE_IDS.ELEVATIONS);
   }
 
-  isElevationLayer = (layerName: string) =>
-    layerName?.startsWith(THEME_PREFIXES.ELEVATIONS);
-
   parseRgbaNumber = (number: number) => Number((number * 255).toFixed());
 
   parseEffectColor = (color: RGBA) =>
@@ -42,7 +39,9 @@ export class Elevations extends Page {
 
   get = () => {
     this.traversePage((children: any) => {
-      if (this.isElevationLayer(children?.name)) {
+      if (
+        this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.ELEVATIONS)
+      ) {
         const boxShadow = this.parseEffects(children.effects);
         const elevationToken = children.name.replace(
           THEME_PREFIXES.ELEVATIONS,

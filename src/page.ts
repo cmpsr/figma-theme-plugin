@@ -8,6 +8,9 @@ export class Page {
 
   getNodePage = () => figma.getNodeById(this.id);
 
+  nodeStartsWithPrefix = (nodeName: string, prefix: string) =>
+    nodeName?.startsWith(prefix);
+
   traversePage = (iterator: (child: any) => void) => {
     const node = this.getNodePage();
     if (figma.editorType === 'figma') {

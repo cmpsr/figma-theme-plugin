@@ -17,10 +17,11 @@ export class Colors extends Page {
     )}`.toUpperCase();
 
   get = () => {
-    this.traversePage((children: any) => {
-      if (this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.COLORS)) {
-        const colorToken = children.name.replace(THEME_PREFIXES.COLORS, '');
-        const colorRgb = children.fills?.[0]?.color;
+    this.traversePage((node: SceneNode) => {
+      if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.COLORS)) {
+        const colorNode = node as RectangleNode | VectorNode;
+        const colorToken = colorNode.name.replace(THEME_PREFIXES.COLORS, '');
+        const colorRgb = colorNode.fills?.[0]?.color;
         const colorHex = this.rgbToHex(colorRgb.r, colorRgb.g, colorRgb.b);
         this.data[colorToken] = colorHex;
       }

@@ -8,10 +8,13 @@ export class Radius extends Page {
   }
 
   get = () => {
-    this.traversePage((children: any) => {
-      if (this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.RADIUS)) {
-        const radiusToken = children.name.replace(THEME_PREFIXES.RADIUS, '');
-        this.data[radiusToken] = convertPxToRem(children.cornerRadius);
+    this.traversePage((node: SceneNode) => {
+      if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.RADIUS)) {
+        const radiusNode = node as RectangleNode;
+        const radiusToken = node.name.replace(THEME_PREFIXES.RADIUS, '');
+        if (radiusNode.cornerRadius !== figma.mixed) {
+          this.data[radiusToken] = convertPxToRem(radiusNode.cornerRadius);
+        }
       }
     });
 

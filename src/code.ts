@@ -2,6 +2,7 @@ import { Colors } from './colors';
 import { Elevations } from './elevations';
 import { Radius } from './radius';
 import { Spacings } from './spacings';
+import { Texts } from './texts';
 
 /* 
   NOTES
@@ -24,7 +25,16 @@ const radius = new Radius().get();
 // Extract elevations
 const elevations = new Elevations().get();
 
-console.log({ colors, space: spacings, radii: radius, shadows: elevations });
+// Extract texts
+const texts = new Texts().get();
+
+console.log({
+  colors,
+  space: spacings,
+  radii: radius,
+  shadows: elevations,
+  textStyles: texts,
+});
 // figma.showUI(__html__, { visible: false });
 // figma.ui.postMessage({
 //   action: 'download',

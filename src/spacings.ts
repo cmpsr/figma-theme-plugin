@@ -8,10 +8,10 @@ export class Spacings extends Page {
   }
 
   get = () => {
-    this.traversePage((children: any) => {
-      if (this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.SPACINGS)) {
-        const spacingToken = children.name.replace(THEME_PREFIXES.SPACINGS, '');
-        this.data[spacingToken] = convertPxToRem(children.width);
+    this.traversePage((node: SceneNode) => {
+      if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.SPACINGS)) {
+        const spacingToken = node.name.replace(THEME_PREFIXES.SPACINGS, '');
+        this.data[spacingToken] = convertPxToRem(node.width);
       }
     });
 

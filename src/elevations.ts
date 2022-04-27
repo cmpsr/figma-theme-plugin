@@ -13,9 +13,7 @@ export class Elevations extends Page {
       color.g,
     )}, ${this.parseRgbaNumber(color.b)}, ${Math.round(color.a * 100) / 100})`;
 
-  parseEffects = (
-    effects: Array<DropShadowEffect | InnerShadowEffect | BlurEffect>,
-  ) =>
+  parseEffects = (effects: Array<Effect>) =>
     effects
       ?.map(
         ({
@@ -38,12 +36,14 @@ export class Elevations extends Page {
       .join(', ');
 
   get = () => {
-    this.traversePage((children: any) => {
-      if (
-        this.nodeStartsWithPrefix(children?.name, THEME_PREFIXES.ELEVATIONS)
-      ) {
-        const boxShadow = this.parseEffects(children.effects);
-        const elevationToken = children.name.replace(
+    this.traversePage((node: SceneNode) => {
+      if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.ELEVATIONS)) {
+        const elevationNode = node as RectangleNode;
+        const elevationStyle = figma.getStyleById(
+          elevationNode.effectStyleId,
+        ) as BaseStyle & EffectStyle;
+        const boxShadow = this.parseEffects(elevationStyle.effects as Effect[]);
+        const elevationToken = elevationNode.name.replace(
           THEME_PREFIXES.ELEVATIONS,
           '',
         );

@@ -11,20 +11,20 @@ export class Page {
   nodeStartsWithPrefix = (nodeName: string, prefix: string) =>
     nodeName?.startsWith(prefix);
 
-  traversePage = (iterator: (child: any) => void) => {
+  traversePage = (iterator: (sceneNode: SceneNode | BaseNode) => void) => {
     const node = this.getNodePage();
     if (figma.editorType === 'figma') {
-      const traverse = (node: any) => {
+      const traverseNode = (node: SceneNode | BaseNode) => {
         if ('children' in node) {
           if (node.type !== 'INSTANCE') {
             for (const child of node.children) {
               iterator(child);
-              traverse(child);
+              traverseNode(child);
             }
           }
         }
       };
-      traverse(node);
+      traverseNode(node);
     }
   };
 }

@@ -8,7 +8,7 @@
     "build": "webpack --mode=production"
   },
   "author": "Pau Teruel",
-  "license": "",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@figma/plugin-typings": "^1.44.0",
     "css-loader": "^6.7.1",

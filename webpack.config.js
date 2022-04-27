@@ -2,14 +2,13 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-module.exports = (env, argv) => ({
+module.exports = (_, argv) => ({
   mode: argv.mode === 'production' ? 'production' : 'development',
 
   // This is necessary because Figma's 'eval' works differently than normal eval
   devtool: argv.mode === 'production' ? false : 'inline-source-map',
 
   entry: {
-    // ui: './src/ui.html',
     code: './src/code.ts', // The entry point for your plugin code
   },
 
@@ -30,7 +29,7 @@ module.exports = (env, argv) => ({
   resolve: { extensions: ['.tsx', '.ts', '.jsx', '.js'] },
 
   output: {
-    filename: 'code.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist"
   },
 

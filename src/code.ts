@@ -39,11 +39,11 @@ try {
 } catch (error) {
   figma.notify('Something went wrong', { timeout: 3000, error: true });
 } finally {
-  figma.closePlugin();
+  // figma.closePlugin();
 }
 
-// figma.showUI(__html__, { visible: false });
+// figma.showUI(__html__, { visible: true });
 // figma.ui.postMessage({
 //   action: 'download',
-//   payload: { colors },
+//   payload: {},
 // });

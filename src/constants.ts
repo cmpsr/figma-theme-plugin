@@ -9,6 +9,11 @@ export const THEME_PREFIXES = {
     LINK: 'text-text-link-',
     DEFAULT: 'text-',
   },
+  TEXTS_PAIRINGS: {
+    DESKTOP: 'textpairing-desktop-',
+    MOBILE: 'textpairing-mobile-',
+    DEFAULT: 'textpairing-',
+  },
 };
 
 export const PAGE_IDS = {
@@ -17,4 +22,5 @@ export const PAGE_IDS = {
   SPACINGS: '806:9208',
   RADIUS: '809:9938',
   TEXTS: '1209:16239',
+  TEXTS_PAIRINGS: '1209:14583',
 };

@@ -5,15 +5,6 @@ import { Spacings } from './spacings';
 import { Texts } from './texts';
 import { TextsPairings } from './textsPairings';
 
-/* 
-  NOTES
-  1. Elevations will require extra job an render order to be correct in order to transform effect layer to box-shadow
-  2. Spacings will require text layer to have the proper naming in order to extract the 
-     value because we can't track spacer-0 from a rectangle
-  3. Convert units to pixels or rems? Right now spacings for example are pixels without the unit
-  
-
-*/
 // Extract colors
 const colors = new Colors().get();
 

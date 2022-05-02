@@ -81,5 +81,5 @@ _We extract information from the Color page of those nodes that start with the p
 
 ## How to use it on figma?
 
-[Setup Guide](https://www.figma.com/plugin-docs/setup/)
-[Find and install plugins](https://help.figma.com/hc/en-us/articles/360040450413-Find-and-install-plugins)
+- [Setup Guide](https://www.figma.com/plugin-docs/setup/)
+- [Find and install plugins](https://help.figma.com/hc/en-us/articles/360040450413-Find-and-install-plugins)

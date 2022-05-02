@@ -1,17 +1,22 @@
 <script>
-    // File creation will have to be handled through DOM
-    window.onmessage = async (event) => {
-        console.log('message');
-        // const msgAction = event.data.pluginMessage.action;
-        // const msgPayload = event.data.pluginMessage.payload;
-        // if (msgAction === 'download') {
-        //   const data = msgPayload; //sample json
-        //   const a = document.createElement('a');
-        //   const blob = new Blob([JSON.stringify(data)]);
-        //   a.href = URL.createObjectURL(blob);
-        //   a.download = 'theme.json'; //filename to download
-        //   a.click();
-        // }
-      };
+  window.onmessage = async (event) => {
+    const action = event.data?.pluginMessage?.action;
+    const payload = event.data?.pluginMessage?.payload;
+
+    if (action === 'download') {
+      const anchor = document.createElement('a');
+      const blob = new Blob([JSON.stringify(payload)]);
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = 'theme.json';
+      anchor.click();
+      parent.postMessage(
+        {
+          pluginMessage: {
+            action: "closePlugin"
+          },
+        },
+        "*"
+      );
+    }
+  };
 </script>
-<h1>GUI</h1>

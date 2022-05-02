@@ -24,3 +24,8 @@ export const PAGE_IDS = {
   TEXTS: '1209:16239',
   TEXTS_PAIRINGS: '1209:14583',
 };
+
+export const MESSAGE_ACTIONS = {
+  DOWNLOAD: 'download',
+  CLOSE_PLUGIN: 'closePlugin',
+};

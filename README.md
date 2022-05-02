@@ -79,7 +79,7 @@ For each of these pages, all of its nodes are iterated over. The nodes from whic
 _Example_
 _We extract information from the Color page of those nodes that start with the prefix <code>-color</code>._
 
-## How to use it on figma?
+## How to use it on figma?
 
 [Setup Guide](https://www.figma.com/plugin-docs/setup/)
 [Find and install plugins](https://help.figma.com/hc/en-us/articles/360040450413-Find-and-install-plugins)

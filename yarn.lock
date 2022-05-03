@@ -650,6 +650,11 @@ import-local@^3.0.2:
     pkg-dir "^4.2.0"
     resolve-cwd "^3.0.0"
 
+inline-chunk-html-plugin@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/inline-chunk-html-plugin/-/inline-chunk-html-plugin-1.1.1.tgz#f64111aed16fac274d2b929f6a6a08671d82354e"
+  integrity sha512-6W1eGIj8z/Yla6xJx5il6jJfCxMZS3kVkbiLQThbbjdsDLRIWkUVmpnhfW2l6WAwCW+qfy0zoXVGBZM1E5XF3g==
+
 interpret@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"

@@ -27,13 +27,25 @@ export class Texts extends Page {
     if (this.data[token]) {
       this.data[token].fontWeight.unshift(
         fontName.style.toLowerCase() || 'normal',
+        null,
+        null,
       );
       this.data[token].letterSpacing.unshift(
         convertPxToRem(letterSpacing.value),
+        null,
+        null,
       );
-      this.data[token].fontSize.unshift(convertPxToRem(fontSize));
-      this.data[token].lineHeight.unshift(convertPxToRem(lineHeight.value));
-      this.data[token].textDecoration.unshift(textDecoration.toLowerCase());
+      this.data[token].fontSize.unshift(convertPxToRem(fontSize), null, null);
+      this.data[token].lineHeight.unshift(
+        convertPxToRem(lineHeight.value),
+        null,
+        null,
+      );
+      this.data[token].textDecoration.unshift(
+        textDecoration.toLowerCase(),
+        null,
+        null,
+      );
     } else {
       this.data[token] = this.getTextStyles(textStyle);
     }

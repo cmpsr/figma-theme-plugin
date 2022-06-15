@@ -1,6 +1,6 @@
 import { PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
-import { convertPxToRem } from './utils';
+import { convertPxToRem, normalizeTextSuffixToken } from './utils';
 
 export class TextsPairings extends Page {
   constructor() {
@@ -15,7 +15,10 @@ export class TextsPairings extends Page {
           THEME_PREFIXES.TEXTS_PAIRINGS.DEFAULT,
         )
       ) {
-        const textPairingToken = node.name.replace(
+        const textPairingNodeNameNormalized = normalizeTextSuffixToken(
+          node.name,
+        );
+        const textPairingToken = textPairingNodeNameNormalized.replace(
           new RegExp(
             `${THEME_PREFIXES.TEXTS_PAIRINGS.DESKTOP}|${THEME_PREFIXES.TEXTS_PAIRINGS.MOBILE}|${THEME_PREFIXES.TEXTS_PAIRINGS.DEFAULT}`,
           ),
@@ -23,7 +26,11 @@ export class TextsPairings extends Page {
         );
         const labelTextNode = (node.children[0] as InstanceNode)
           .children[0] as TextNode;
-        const labelNodeToken = labelTextNode.name.replace(
+        const labelTextNodeNameNormalized = normalizeTextSuffixToken(
+          labelTextNode.name,
+        );
+
+        const labelNodeToken = labelTextNodeNameNormalized.replace(
           new RegExp(
             `${THEME_PREFIXES.TEXTS.DESKTOP}|${THEME_PREFIXES.TEXTS.MOBILE}|${THEME_PREFIXES.TEXTS.DEFAULT}`,
           ),
@@ -31,7 +38,11 @@ export class TextsPairings extends Page {
         );
         const subLabelTextNode = (node.children[1] as InstanceNode)
           .children[0] as TextNode;
-        const subLabelNodeToken = subLabelTextNode.name.replace(
+        const subLabelTextNodeNameNormalized = normalizeTextSuffixToken(
+          subLabelTextNode.name,
+        );
+
+        const subLabelNodeToken = subLabelTextNodeNameNormalized.replace(
           new RegExp(
             `${THEME_PREFIXES.TEXTS.DESKTOP}|${THEME_PREFIXES.TEXTS.MOBILE}|${THEME_PREFIXES.TEXTS.DEFAULT}`,
           ),

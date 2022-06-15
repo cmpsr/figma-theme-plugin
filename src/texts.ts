@@ -1,7 +1,7 @@
 import { PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
 import { Unit } from './types';
-import { convertPxToRem } from './utils';
+import { convertPxToRem, normalizeTextSuffixToken } from './utils';
 
 export class Texts extends Page {
   constructor() {
@@ -55,26 +55,29 @@ export class Texts extends Page {
     this.traversePage((node: SceneNode) => {
       if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.TEXTS.DEFAULT)) {
         const textNode = node as TextNode;
+        const textNodeNameNormalized = normalizeTextSuffixToken(textNode.name);
         const textStyle = figma.getStyleById(
           textNode.textStyleId as string,
         ) as TextStyle;
 
-        const isDesktopText = textNode.name.startsWith(
+        const isDesktopText = textNodeNameNormalized.startsWith(
           THEME_PREFIXES.TEXTS.DESKTOP,
         );
-        const isMobileText = textNode.name.startsWith(
+        const isMobileText = textNodeNameNormalized.startsWith(
           THEME_PREFIXES.TEXTS.MOBILE,
         );
-        const isLinkText = textNode.name.startsWith(THEME_PREFIXES.TEXTS.LINK);
-        const defaultTextToken = textNode.name.replace(
+        const isLinkText = textNodeNameNormalized.startsWith(
+          THEME_PREFIXES.TEXTS.LINK,
+        );
+        const defaultTextToken = textNodeNameNormalized.replace(
           THEME_PREFIXES.TEXTS.DEFAULT,
           '',
         );
-        const mobileTextToken = textNode.name.replace(
+        const mobileTextToken = textNodeNameNormalized.replace(
           THEME_PREFIXES.TEXTS.MOBILE,
           '',
         );
-        const desktopTextToken = textNode.name.replace(
+        const desktopTextToken = textNodeNameNormalized.replace(
           THEME_PREFIXES.TEXTS.DESKTOP,
           '',
         );

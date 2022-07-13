@@ -1,13 +1,14 @@
 import { MESSAGE_ACTIONS } from './constants';
 import { Theme } from './theme';
 
+let theme;
 try {
-  const theme = new Theme().get();
-  figma.notify('Theme has been extracted successfully ✅', { timeout: 3000 });
-  figma.showUI(__html__, { visible: false });
-  figma.ui.postMessage({
-    action: MESSAGE_ACTIONS.DOWNLOAD,
-    payload: theme,
+  theme = new Theme().get();
+  figma.showUI(__html__, {
+    visible: true,
+    title: 'Composer Themes',
+    width: 352,
+    height: 533,
   });
 } catch (error) {
   figma.notify('Something went wrong', { timeout: 3000, error: true });
@@ -16,5 +17,11 @@ try {
 figma.ui.onmessage = async (msg) => {
   if (msg.action === MESSAGE_ACTIONS.CLOSE_PLUGIN) {
     figma.closePlugin();
+  }
+  if (msg.action === MESSAGE_ACTIONS.DOWNLOAD) {
+    figma.ui.postMessage({
+      action: MESSAGE_ACTIONS.DOWNLOAD,
+      payload: theme,
+    });
   }
 };

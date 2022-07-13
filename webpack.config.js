@@ -11,7 +11,6 @@ module.exports = (_env, argv) => ({
   devtool: argv.mode === 'production' ? false : 'inline-source-map',
 
   entry: {
-    ui: './src/ui.ts', // The entry point for your UI code
     code: './src/code.ts', // The entry point for your plugin code
   },
 
@@ -33,18 +32,4 @@ module.exports = (_env, argv) => ({
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist"
   },
-
-  // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
-  plugins: [
-    new webpack.DefinePlugin({
-      global: {}, // Fix missing symbol error when running in developer VM
-    }),
-    new HtmlWebpackPlugin({
-      inject: 'body',
-      template: './src/ui.html',
-      filename: 'ui.html',
-      chunks: ['ui'],
-    }),
-    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
-  ],
 });

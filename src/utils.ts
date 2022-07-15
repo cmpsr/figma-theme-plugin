@@ -51,6 +51,6 @@ export const normalizeTextFontWeight = (fontWeight: string) => {
       timeout: 3000,
       error: false,
     });
-    return fontWeightLowerCase || 400;
+    return fontWeightLowerCase;
   }
 };

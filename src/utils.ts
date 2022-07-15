@@ -24,3 +24,28 @@ export const normalizeTextSuffixToken = (token: string) => {
     return token;
   }
 };
+
+export const normalizeTextFontWeight = (fontWeight: string) => {
+  const fontWeightLowerCase = fontWeight.toLocaleLowerCase();
+  const fontWeights = {
+    thin: 100,
+    'extra light': 200,
+    extralight: 200,
+    light: 300,
+    normal: 400,
+    semibold: 400,
+    medium: 500,
+    md: 500,
+    'semi bold': 600,
+    bold: 700,
+    bd: 700,
+    'extra bold': 800,
+    'ultra bold': 900,
+  };
+
+  if (fontWeights[fontWeightLowerCase]) {
+    return fontWeights[fontWeightLowerCase];
+  } else {
+    return fontWeightLowerCase;
+  }
+};

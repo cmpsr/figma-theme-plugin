@@ -19,7 +19,7 @@ export class Texts extends Page {
     return {
       color: 'text-primary',
       fontSize: [convertPxToRem(fontSize)],
-      fontWeight: [normalizedFontWeight || 'normal'],
+      fontWeight: [normalizedFontWeight],
       letterSpacing: [convertPxToRem(letterSpacing.value)],
       lineHeight: [convertPxToRem(lineHeight.value)],
       textDecoration: [textDecoration.toLowerCase() || 'none'],
@@ -32,11 +32,7 @@ export class Texts extends Page {
 
     const lineHeight = textStyle.lineHeight as Unit;
     if (this.data[token]) {
-      this.data[token].fontWeight.unshift(
-        normalizedFontWeight || 'normal',
-        null,
-        null,
-      );
+      this.data[token].fontWeight.unshift(normalizedFontWeight, null, null);
       this.data[token].letterSpacing.unshift(
         convertPxToRem(letterSpacing.value),
         null,

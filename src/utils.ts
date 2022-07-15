@@ -46,6 +46,6 @@ export const normalizeTextFontWeight = (fontWeight: string) => {
   if (fontWeights[fontWeightLowerCase]) {
     return fontWeights[fontWeightLowerCase];
   } else {
-    return fontWeightLowerCase;
+    return fontWeightLowerCase || 400;
   }
 };

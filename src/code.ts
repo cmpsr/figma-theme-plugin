@@ -1,9 +1,7 @@
 import { MESSAGE_ACTIONS } from './constants';
 import { Theme } from './theme';
 
-let theme;
 try {
-  theme = new Theme().get();
   figma.showUI(__html__, {
     visible: true,
     title: 'Composer Themes',
@@ -19,9 +17,15 @@ figma.ui.onmessage = async (msg) => {
     figma.closePlugin();
   }
   if (msg.action === MESSAGE_ACTIONS.DOWNLOAD) {
-    figma.ui.postMessage({
-      action: MESSAGE_ACTIONS.DOWNLOAD,
-      payload: theme,
-    });
+    let theme;
+    try {
+      theme = new Theme().get();
+      figma.ui.postMessage({
+        action: MESSAGE_ACTIONS.DOWNLOAD,
+        payload: theme,
+      });
+    } catch (error) {
+      figma.notify('Something went wrong', { timeout: 3000, error: true });
+    }
   }
 };

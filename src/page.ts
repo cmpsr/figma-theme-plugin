@@ -13,7 +13,7 @@ export class Page {
 
   traversePage = (iterator: (sceneNode: SceneNode | BaseNode) => void) => {
     const node = this.getNodePage();
-    if (figma.editorType === 'figma') {
+    if (figma.editorType === 'figma' && node) {
       const traverseNode = (node: SceneNode | BaseNode) => {
         if ('children' in node) {
           if (node.type !== 'INSTANCE') {

@@ -33,6 +33,7 @@ export const normalizeTextFontWeight = (fontWeight: string) => {
     extralight: 200,
     light: 300,
     normal: 400,
+    regular: 400,
     semibold: 400,
     medium: 500,
     md: 500,
@@ -46,6 +47,10 @@ export const normalizeTextFontWeight = (fontWeight: string) => {
   if (fontWeights[fontWeightLowerCase]) {
     return fontWeights[fontWeightLowerCase];
   } else {
+    figma.notify(`We can't resolve the font weight style: ${fontWeight}`, {
+      timeout: 3000,
+      error: false,
+    });
     return fontWeightLowerCase || 400;
   }
 };

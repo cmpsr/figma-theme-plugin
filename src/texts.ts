@@ -23,6 +23,7 @@ export class Texts extends Page {
       letterSpacing: [convertPxToRem(letterSpacing.value)],
       lineHeight: [convertPxToRem(lineHeight.value)],
       textDecoration: [textDecoration.toLowerCase() || 'none'],
+      fontFamily: fontName.family,
     };
   };
 

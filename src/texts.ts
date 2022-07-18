@@ -1,7 +1,11 @@
 import { PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
 import { Unit } from './types';
-import { convertPxToRem, normalizeTextSuffixToken } from './utils';
+import {
+  convertPxToRem,
+  normalizeTextFontWeight,
+  normalizeTextSuffixToken,
+} from './utils';
 
 export class Texts extends Page {
   constructor() {
@@ -10,11 +14,12 @@ export class Texts extends Page {
 
   getTextStyles = (textStyle: TextStyle) => {
     const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
+    const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
     const lineHeight = textStyle.lineHeight as Unit;
     return {
       color: 'text-primary',
       fontSize: [convertPxToRem(fontSize)],
-      fontWeight: [fontName.style.toLowerCase() || 'normal'],
+      fontWeight: [normalizedFontWeight],
       letterSpacing: [convertPxToRem(letterSpacing.value)],
       lineHeight: [convertPxToRem(lineHeight.value)],
       textDecoration: [textDecoration.toLowerCase() || 'none'],
@@ -24,13 +29,11 @@ export class Texts extends Page {
 
   setResponsiveTextStyles = (token: string, textStyle: TextStyle) => {
     const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
+    const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
+
     const lineHeight = textStyle.lineHeight as Unit;
     if (this.data[token]) {
-      this.data[token].fontWeight.unshift(
-        fontName.style.toLowerCase() || 'normal',
-        null,
-        null,
-      );
+      this.data[token].fontWeight.unshift(normalizedFontWeight, null, null);
       this.data[token].letterSpacing.unshift(
         convertPxToRem(letterSpacing.value),
         null,

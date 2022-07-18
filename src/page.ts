@@ -13,7 +13,7 @@ export class Page {
 
   traversePage = (iterator: (sceneNode: SceneNode | BaseNode) => void) => {
     const node = this.getNodePage();
-    if (figma.editorType === 'figma') {
+    if (figma.editorType === 'figma' && node) {
       const traverseNode = (node: SceneNode | BaseNode) => {
         if ('children' in node) {
           if (node.type !== 'INSTANCE') {
@@ -25,6 +25,14 @@ export class Page {
         }
       };
       traverseNode(node);
+    } else {
+      figma.notify(
+        `The page with id: ${this.id} has not been found. Make sure you are using the Composer Design System template`,
+        {
+          timeout: 3000,
+          error: false,
+        },
+      );
     }
   };
 }

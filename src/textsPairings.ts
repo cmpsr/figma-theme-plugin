@@ -68,12 +68,12 @@ export class TextsPairings extends Page {
         if (isDesktopText) {
           this.data[textPairingToken].columnGap.md = itemSpacing;
         } else if (isMobileText) {
-          this.data[textPairingToken].columnGap.sm = itemSpacing;
+          this.data[textPairingToken].columnGap.base = itemSpacing;
         } else {
           this.data[textPairingToken] = {
             ...this.data[textPairingToken],
             columnGap: {
-              sm: itemSpacing,
+              base: itemSpacing,
               md: itemSpacing,
             },
           };

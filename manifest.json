@@ -1,10 +1,8 @@
 {
   "name": "figma-theme-plugin",
-  "id": "1117065139448218017",
+  "id": "1131603520802134061",
   "api": "1.0.0",
   "main": "./dist/code.js",
-  "editorType": [
-    "figma"
-  ],
+  "editorType": ["figma"],
   "ui": "./dist/ui.html"
 }

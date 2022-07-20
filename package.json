@@ -1,5 +1,5 @@
 {
-  "name": "figma-theme-plugin",
+  "name": "composer-themes",
   "version": "1.0.0",
   "description": "Figma plugin to extract theme basics from Composer DSM",
   "main": "code.js",

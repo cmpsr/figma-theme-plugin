@@ -26,12 +26,8 @@ export class Page {
       };
       traverseNode(node);
     } else {
-      figma.notify(
-        `The page with id: ${this.id} has not been found. Make sure you are using the Composer Design System template`,
-        {
-          timeout: 3000,
-          error: false,
-        },
+      throw new Error(
+        'Looks like there was an issue. Please make sure you are using the Composer Design System and try again.',
       );
     }
   };

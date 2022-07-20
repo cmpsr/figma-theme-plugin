@@ -1,16 +1,12 @@
 import { MESSAGE_ACTIONS } from './constants';
 import { Theme } from './theme';
 
-try {
-  figma.showUI(__html__, {
-    visible: true,
-    title: 'Composer Themes',
-    width: 352,
-    height: 533,
-  });
-} catch (error) {
-  figma.notify('Something went wrong', { timeout: 3000, error: true });
-}
+figma.showUI(__html__, {
+  visible: true,
+  title: 'Composer Themes',
+  width: 352,
+  height: 533,
+});
 
 figma.ui.onmessage = async (msg) => {
   if (msg.action === MESSAGE_ACTIONS.CLOSE_PLUGIN) {
@@ -25,7 +21,10 @@ figma.ui.onmessage = async (msg) => {
         payload: theme,
       });
     } catch (error) {
-      figma.notify('Something went wrong', { timeout: 3000, error: true });
+      figma.notify(error?.message ?? 'Something went wrong', {
+        timeout: 10000,
+        error: true,
+      });
     }
   }
 };

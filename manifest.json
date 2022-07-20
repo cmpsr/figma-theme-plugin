@@ -1,10 +1,8 @@
 {
-  "name": "figma-theme-plugin",
+  "name": "Composer Themes",
   "id": "1117065139448218017",
   "api": "1.0.0",
   "main": "./dist/code.js",
-  "editorType": [
-    "figma"
-  ],
+  "editorType": ["figma"],
   "ui": "./dist/ui.html"
 }

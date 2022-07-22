@@ -12,47 +12,55 @@ export class Texts extends Page {
     super(PAGE_IDS.TEXTS);
   }
 
-  getTextStyles = (textStyle: TextStyle) => {
+  normalizeTextStyles = (textStyle: TextStyle) => {
     const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
     const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
     const lineHeight = textStyle.lineHeight as Unit;
     return {
       color: 'text-primary',
-      fontSize: [convertPxToRem(fontSize)],
-      fontWeight: [normalizedFontWeight],
-      letterSpacing: [convertPxToRem(letterSpacing.value)],
-      lineHeight: [convertPxToRem(lineHeight.value)],
-      textDecoration: [textDecoration.toLowerCase() || 'none'],
+      fontSize: convertPxToRem(fontSize),
+      fontWeight: normalizedFontWeight,
+      letterSpacing: convertPxToRem(letterSpacing.value),
+      lineHeight: convertPxToRem(lineHeight.value),
+      textDecoration: textDecoration.toLowerCase() || 'none',
       fontFamily: fontName.family,
     };
   };
 
-  setResponsiveTextStyles = (token: string, textStyle: TextStyle) => {
-    const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
-    const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
-
-    const lineHeight = textStyle.lineHeight as Unit;
+  setResponsiveTextStyles = (
+    token: string,
+    textStyles: TextStyle,
+    breakpoint: string,
+  ) => {
+    const textStylesNormalized = this.normalizeTextStyles(textStyles);
     if (this.data[token]) {
-      this.data[token].fontWeight.unshift(normalizedFontWeight, null, null);
-      this.data[token].letterSpacing.unshift(
-        convertPxToRem(letterSpacing.value),
-        null,
-        null,
-      );
-      this.data[token].fontSize.unshift(convertPxToRem(fontSize), null, null);
-      this.data[token].lineHeight.unshift(
-        convertPxToRem(lineHeight.value),
-        null,
-        null,
-      );
-      this.data[token].textDecoration.unshift(
-        textDecoration.toLowerCase(),
-        null,
-        null,
+      this.data[token] = this.addTextStyleBreakpoint(
+        this.data[token],
+        textStylesNormalized,
+        breakpoint,
       );
     } else {
-      this.data[token] = this.getTextStyles(textStyle);
+      this.data[token] = this.createTextStyleBreakpoint(
+        textStylesNormalized,
+        breakpoint,
+      );
     }
+  };
+
+  createTextStyleBreakpoint = (textStyles, breakpoint) => {
+    let textStyleWithBreakpoint = {};
+    for (let key in textStyles) {
+      textStyleWithBreakpoint[key] = {};
+      textStyleWithBreakpoint[key][breakpoint] = textStyles[key];
+    }
+    return textStyleWithBreakpoint;
+  };
+
+  addTextStyleBreakpoint = (previousTextStyles, newTextStyles, breakpoint) => {
+    for (let key in previousTextStyles) {
+      previousTextStyles[key][breakpoint] = newTextStyles[key];
+    }
+    return previousTextStyles;
   };
 
   get = () => {
@@ -88,15 +96,15 @@ export class Texts extends Page {
 
         if (isLinkText) {
           this.data[defaultTextToken] = {
-            ...this.getTextStyles(textStyle),
+            ...this.normalizeTextStyles(textStyle),
             color: 'text-link-accent-default',
           };
         } else if (isMobileText) {
-          this.setResponsiveTextStyles(mobileTextToken, textStyle);
+          this.setResponsiveTextStyles(mobileTextToken, textStyle, 'base');
         } else if (isDesktopText) {
-          this.setResponsiveTextStyles(desktopTextToken, textStyle);
+          this.setResponsiveTextStyles(desktopTextToken, textStyle, 'lg');
         } else {
-          this.data[defaultTextToken] = this.getTextStyles(textStyle);
+          this.data[defaultTextToken] = this.normalizeTextStyles(textStyle);
         }
       }
     });

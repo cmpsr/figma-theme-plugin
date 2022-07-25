@@ -81,6 +81,6 @@ export class TextsPairings extends Page {
       }
     });
 
-    return { parts: ['label', 'subLabel'], variants: this.data };
+    return { parts: ['label', 'subLabel', 'container'], variants: this.data };
   };
 }

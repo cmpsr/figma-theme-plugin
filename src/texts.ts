@@ -1,4 +1,4 @@
-import { PAGE_IDS, THEME_PREFIXES } from './constants';
+import { BREAKPOINTS, PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
 import { Unit } from './types';
 import {
@@ -12,48 +12,67 @@ export class Texts extends Page {
     super(PAGE_IDS.TEXTS);
   }
 
-  getTextStyles = (textStyle: TextStyle) => {
+  normalizeTextStyles = (textStyle: TextStyle) => {
     const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
     const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
     const lineHeight = textStyle.lineHeight as Unit;
     return {
       color: 'text-primary',
-      fontSize: [convertPxToRem(fontSize)],
-      fontWeight: [normalizedFontWeight],
-      letterSpacing: [convertPxToRem(letterSpacing.value)],
-      lineHeight: [convertPxToRem(lineHeight.value)],
-      textDecoration: [textDecoration.toLowerCase() || 'none'],
+      fontSize: convertPxToRem(fontSize),
+      fontWeight: normalizedFontWeight,
+      letterSpacing: convertPxToRem(letterSpacing.value),
+      lineHeight: convertPxToRem(lineHeight.value),
+      textDecoration: textDecoration.toLowerCase() || 'none',
       fontFamily: fontName.family,
     };
   };
 
-  setResponsiveTextStyles = (token: string, textStyle: TextStyle) => {
-    const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
-    const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
+  setResponsiveTextStyles = (
+    token: string,
+    textStyles: TextStyle,
+    breakpoint: string,
+  ) => {
+    const textStylesNormalized = this.normalizeTextStyles(textStyles);
+    this.data[token] = this.addTextStyleBreakpoint({
+      previousTextStyles: this.data[token],
+      newTextStyles: textStylesNormalized,
+      breakpoint,
+    });
+  };
 
-    const lineHeight = textStyle.lineHeight as Unit;
-    if (this.data[token]) {
-      this.data[token].fontWeight.unshift(normalizedFontWeight, null, null);
-      this.data[token].letterSpacing.unshift(
-        convertPxToRem(letterSpacing.value),
-        null,
-        null,
-      );
-      this.data[token].fontSize.unshift(convertPxToRem(fontSize), null, null);
-      this.data[token].lineHeight.unshift(
-        convertPxToRem(lineHeight.value),
-        null,
-        null,
-      );
-      this.data[token].textDecoration.unshift(
-        textDecoration.toLowerCase(),
-        null,
-        null,
-      );
-    } else {
-      this.data[token] = this.getTextStyles(textStyle);
+  dedupeResponsiveTextStyles = () => {
+    for (let textVariant in this.data) {
+      for (let textStyle in this.data[textVariant]) {
+        const baseTextStyles =
+          this.data[textVariant][textStyle][BREAKPOINTS.BASE];
+        const largeTextStyles =
+          this.data[textVariant][textStyle][BREAKPOINTS.LARGE];
+        if (
+          baseTextStyles &&
+          largeTextStyles &&
+          baseTextStyles === largeTextStyles
+        ) {
+          this.data[textVariant][textStyle] = baseTextStyles;
+        }
+      }
     }
   };
+
+  addTextStyleBreakpoint = ({
+    previousTextStyles = undefined,
+    newTextStyles,
+    breakpoint,
+  }) =>
+    Object.keys(newTextStyles).reduce(
+      (previousValue, currentValue) => ({
+        ...previousValue,
+        [currentValue]: {
+          ...previousTextStyles?.[currentValue],
+          [breakpoint]: newTextStyles[currentValue],
+        },
+      }),
+      {},
+    );
 
   get = () => {
     this.traversePage((node: SceneNode) => {
@@ -88,18 +107,27 @@ export class Texts extends Page {
 
         if (isLinkText) {
           this.data[defaultTextToken] = {
-            ...this.getTextStyles(textStyle),
+            ...this.normalizeTextStyles(textStyle),
             color: 'text-link-accent-default',
           };
         } else if (isMobileText) {
-          this.setResponsiveTextStyles(mobileTextToken, textStyle);
+          this.setResponsiveTextStyles(
+            mobileTextToken,
+            textStyle,
+            BREAKPOINTS.BASE,
+          );
         } else if (isDesktopText) {
-          this.setResponsiveTextStyles(desktopTextToken, textStyle);
+          this.setResponsiveTextStyles(
+            desktopTextToken,
+            textStyle,
+            BREAKPOINTS.LARGE,
+          );
         } else {
-          this.data[defaultTextToken] = this.getTextStyles(textStyle);
+          this.data[defaultTextToken] = this.normalizeTextStyles(textStyle);
         }
       }
     });
+    this.dedupeResponsiveTextStyles();
     return this.data;
   };
 }

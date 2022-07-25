@@ -29,3 +29,8 @@ export const MESSAGE_ACTIONS = {
   DOWNLOAD: 'download',
   CLOSE_PLUGIN: 'closePlugin',
 };
+
+export const BREAKPOINTS = {
+  BASE: 'base',
+  LARGE: 'lg',
+};

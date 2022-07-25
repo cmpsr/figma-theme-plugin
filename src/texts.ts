@@ -1,4 +1,4 @@
-import { PAGE_IDS, THEME_PREFIXES } from './constants';
+import { BREAKPOINTS, PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
 import { Unit } from './types';
 import {
@@ -33,35 +33,46 @@ export class Texts extends Page {
     breakpoint: string,
   ) => {
     const textStylesNormalized = this.normalizeTextStyles(textStyles);
-    if (this.data[token]) {
-      this.data[token] = this.addTextStyleBreakpoint(
-        this.data[token],
-        textStylesNormalized,
-        breakpoint,
-      );
-    } else {
-      this.data[token] = this.createTextStyleBreakpoint(
-        textStylesNormalized,
-        breakpoint,
-      );
+    this.data[token] = this.addTextStyleBreakpoint({
+      previousTextStyles: this.data[token],
+      newTextStyles: textStylesNormalized,
+      breakpoint,
+    });
+  };
+
+  dedupeResponsiveTextStyles = () => {
+    for (let textVariant in this.data) {
+      for (let textStyle in this.data[textVariant]) {
+        const baseTextStyles =
+          this.data[textVariant][textStyle][BREAKPOINTS.BASE];
+        const largeTextStyles =
+          this.data[textVariant][textStyle][BREAKPOINTS.LARGE];
+        if (
+          baseTextStyles &&
+          largeTextStyles &&
+          baseTextStyles === largeTextStyles
+        ) {
+          this.data[textVariant][textStyle] = baseTextStyles;
+        }
+      }
     }
   };
 
-  createTextStyleBreakpoint = (textStyles, breakpoint) => {
-    let textStyleWithBreakpoint = {};
-    for (let key in textStyles) {
-      textStyleWithBreakpoint[key] = {};
-      textStyleWithBreakpoint[key][breakpoint] = textStyles[key];
-    }
-    return textStyleWithBreakpoint;
-  };
-
-  addTextStyleBreakpoint = (previousTextStyles, newTextStyles, breakpoint) => {
-    for (let key in previousTextStyles) {
-      previousTextStyles[key][breakpoint] = newTextStyles[key];
-    }
-    return previousTextStyles;
-  };
+  addTextStyleBreakpoint = ({
+    previousTextStyles = undefined,
+    newTextStyles,
+    breakpoint,
+  }) =>
+    Object.keys(newTextStyles).reduce(
+      (previousValue, currentValue) => ({
+        ...previousValue,
+        [currentValue]: {
+          ...previousTextStyles?.[currentValue],
+          [breakpoint]: newTextStyles[currentValue],
+        },
+      }),
+      {},
+    );
 
   get = () => {
     this.traversePage((node: SceneNode) => {
@@ -100,14 +111,23 @@ export class Texts extends Page {
             color: 'text-link-accent-default',
           };
         } else if (isMobileText) {
-          this.setResponsiveTextStyles(mobileTextToken, textStyle, 'base');
+          this.setResponsiveTextStyles(
+            mobileTextToken,
+            textStyle,
+            BREAKPOINTS.BASE,
+          );
         } else if (isDesktopText) {
-          this.setResponsiveTextStyles(desktopTextToken, textStyle, 'lg');
+          this.setResponsiveTextStyles(
+            desktopTextToken,
+            textStyle,
+            BREAKPOINTS.LARGE,
+          );
         } else {
           this.data[defaultTextToken] = this.normalizeTextStyles(textStyle);
         }
       }
     });
+    this.dedupeResponsiveTextStyles();
     return this.data;
   };
 }

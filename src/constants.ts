@@ -1,4 +1,5 @@
 export const THEME_PREFIXES = {
+  BREAKPOINTS: 'breakpoints-',
   COLORS: 'color-',
   SPACINGS: 'spacer-',
   RADIUS: 'radii-',
@@ -17,6 +18,7 @@ export const THEME_PREFIXES = {
 };
 
 export const PAGE_IDS = {
+  BREAKPOINTS: '809:9977',
   COLORS: '806:9205',
   ELEVATIONS: '806:9207',
   SPACINGS: '806:9208',

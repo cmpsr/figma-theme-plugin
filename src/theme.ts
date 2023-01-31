@@ -1,3 +1,4 @@
+import { Breakpoints } from './breakpoints';
 import { Colors } from './colors';
 import { Elevations } from './elevations';
 import { Radius } from './radius';
@@ -6,6 +7,7 @@ import { Texts } from './texts';
 import { TextsPairings } from './textsPairings';
 
 export class Theme {
+  breakpoints: {};
   colors: {};
   spacings: {};
   radius: {};
@@ -14,6 +16,7 @@ export class Theme {
   textsPairings: { parts: string[]; variants: {} };
 
   constructor() {
+    this.breakpoints = new Breakpoints().get();
     this.colors = new Colors().get();
     this.spacings = new Spacings().get();
     this.radius = new Radius().get();
@@ -23,6 +26,7 @@ export class Theme {
   }
 
   get = () => ({
+    breakpoints: this.breakpoints,
     colors: this.colors,
     space: this.spacings,
     radii: this.radius,

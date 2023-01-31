@@ -1,5 +1,11 @@
 const rootFontSize = 16;
-export const convertPxToRem = (pixel: number) => `${pixel / rootFontSize}rem`;
+export const convertPxToRem = (pixel: number, fixedDigits = 3) => {
+  if (!pixel) return '0rem';
+
+  const pixelFixed = Number(pixel.toFixed(fixedDigits));
+  const remFixed = (pixelFixed / rootFontSize).toFixed(fixedDigits);
+  return `${remFixed}rem`;
+};
 
 export const normalizeTextSuffixToken = (token: string) => {
   const SIZE_SUFFIX = {

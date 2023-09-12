@@ -8,12 +8,11 @@ export class Page {
 
   getNodePage = () => figma.getNodeById(this.id);
 
-  nodeStartsWithPrefix = (nodeName: string, prefix: string) =>
-    nodeName?.startsWith(prefix);
+  nodeStartsWithPrefix = (nodeName: string, prefix: string) => nodeName?.startsWith(prefix);
 
   traversePage = (iterator: (sceneNode: SceneNode | BaseNode) => void) => {
     const node = this.getNodePage();
-    if (figma.editorType === 'figma' && node) {
+    if ((figma.editorType === 'figma' || figma.editorType === 'dev') && node) {
       const traverseNode = (node: SceneNode | BaseNode) => {
         if ('children' in node) {
           if (node.type !== 'INSTANCE') {
@@ -27,7 +26,7 @@ export class Page {
       traverseNode(node);
     } else {
       throw new Error(
-        'Looks like there was an issue. Please make sure you are using the Composer Design System and try again.',
+        'Looks like there was an issue. Please make sure you are using the Composer Design System and try again.'
       );
     }
   };

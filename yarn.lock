@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@figma/plugin-typings@^1.44.0":
-  version "1.44.0"
-  resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.44.0.tgz#428440c0e513a6355cdeb674f08e07611fd50957"
-  integrity sha512-Ebf0fwTfkZc0BOeHsLBHGO+1BuNfsDWZdKrFLhxTUjtXHSsaY/dWKWimr+2OojOcVII1i4H7V/OFG3DCkJOymw==
+"@figma/plugin-typings@^1.76.0":
+  version "1.76.0"
+  resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.76.0.tgz#6369c86cd15c505c995cc45f46ed8506e008642d"
+  integrity sha512-fGYPJJx9dIYf0X/ZaUjrNjhpmkv7XJzMj0C2GZjSje1wYfGWvddM07mXiS9NRQ+Ikrq0qim1bf6WZZmgL83ZEA==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.3"

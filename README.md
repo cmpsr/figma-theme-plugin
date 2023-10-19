@@ -1,14 +1,7 @@
 <div align="center">
-<h1>Figma Theme Plugin</h1>
+<h1>🎨 Composer Themes</h1>
 
-<img
-  height="160"
-  width="160"
-  alt="joker"
-  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/google/313/electric-plug_1f50c.png"
-/>
-
-<p>Extract Composer design system primitives from Figma into JSON</p>
+<p>Convert Composer Design System primitives from Figma to JSON</p>
 
 </div>
 

@@ -1,0 +1,136 @@
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap");
+
+/* Variables */
+:root {
+  --font-family-default: "Inter";
+  --font-style-normal: normal;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --font-size-text: 12px;
+  --line-height-text: 18px;
+  --color-primary: #18a0fb;
+  --color-text: rgba(0, 0, 0, 0.8);
+  --color-background: #ffffff;
+  --border-radius: 6px;
+}
+
+/* Reset */
+p,
+ol,
+body {
+  margin: 0;
+}
+ol {
+  padding-left: 16px;
+}
+
+/* Utility Classes */
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.content {
+  padding: 16px;
+}
+
+/* Typography */
+.regular,
+.bold,
+.link,
+.btn,
+.meta {
+  font-family: var(--font-family-default);
+  font-style: var(--font-style-normal);
+  line-height: var(--line-height-text);
+  color: var(--color-text);
+}
+
+.regular {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-text);
+}
+.bold,
+.link {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-text);
+}
+.meta {
+  font-weight: var(--font-weight-regular);
+  font-size: 10px;
+  letter-spacing: 0.05px;
+}
+
+/* Links */
+.link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+/* Buttons */
+.btn {
+  border: unset;
+  padding: 7px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.primary-btn {
+  background: var(--color-primary);
+  color: var(--color-background);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+}
+
+.secondary-btn {
+  background: var(--color-background);
+  border: 1px solid var(--color-text);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.005em;
+}
+
+/* Select container */
+.select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 10px;
+  padding-right: 30px;
+  border: 1px solid #aaa;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  border-radius: var(--border-radius);
+}
+
+.select-wrapper:after {
+  content: "▼";
+  position: absolute;
+  font-size: 8px;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}

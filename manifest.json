@@ -2,7 +2,7 @@
   "name": "Composer Themes",
   "id": "1131606090957780017",
   "api": "1.0.0",
-  "main": "./dist/code.js",
+  "main": "./dist/main.js",
   "editorType": ["figma", "dev"],
   "capabilities": ["inspect"],
   "ui": "./dist/ui.html"

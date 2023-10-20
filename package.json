@@ -2,7 +2,7 @@
   "name": "composer-themes",
   "version": "1.0.0",
   "description": "Figma plugin to extract theme basics from Composer DSM",
-  "main": "code.js",
+  "main": "main.js",
   "scripts": {
     "dev": "webpack --mode=development --watch",
     "build": "webpack --mode=production"
@@ -23,6 +23,9 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "react": "^18.2.0",
+    "react-dev-utils": "^12.0.1",
+    "react-dom": "^18.2.0"
   }
 }

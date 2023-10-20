@@ -1,16 +1,18 @@
 export class Page {
-  id: string;
-  data: {};
+  protected data: Record<string, any>;
+  private id: string;
+  private localVariables?: ReturnType<typeof figma.variables.getLocalVariables>;
+
   constructor(id: string) {
     this.id = id;
     this.data = {};
   }
 
-  getNodePage = () => figma.getNodeById(this.id);
+  private getNodePage = () => figma.getNodeById(this.id);
 
-  nodeStartsWithPrefix = (nodeName: string, prefix: string) => nodeName?.startsWith(prefix);
+  protected nodeStartsWithPrefix = (nodeName: string, prefix: string) => nodeName?.startsWith(prefix);
 
-  traversePage = (iterator: (sceneNode: SceneNode | BaseNode) => void) => {
+  protected traversePage = (iterator: (sceneNode: SceneNode | BaseNode) => void) => {
     const node = this.getNodePage();
     if ((figma.editorType === 'figma' || figma.editorType === 'dev') && node) {
       const traverseNode = (node: SceneNode | BaseNode) => {
@@ -30,4 +32,11 @@ export class Page {
       );
     }
   };
+
+  protected getLocalVariables() {
+    if (!this.localVariables) {
+      this.localVariables = figma.variables.getLocalVariables();
+    }
+    return this.localVariables;
+  }
 }

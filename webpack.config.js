@@ -1,8 +1,6 @@
-const InlineChunkHtmlPlugin = require('inline-chunk-html-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = (_env, argv) => ({
   mode: argv.mode === 'production' ? 'production' : 'development',
@@ -11,17 +9,20 @@ module.exports = (_env, argv) => ({
   devtool: argv.mode === 'production' ? false : 'inline-source-map',
 
   entry: {
-    code: './src/code.ts', // The entry point for your plugin code
+    ui: './src/app/index.tsx', // The entry point for your UI code
+    main: './src/plugin/main.ts', // The entry point for your plugin code
   },
 
   module: {
     rules: [
       // Converts TypeScript code to JavaScript
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
+      { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
+
+      // Enables including CSS by doing "import './file.css'" in your TypeScript code
+      { test: /\.css$/, use: ['style-loader', { loader: 'css-loader' }] },
+
+      // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
+      { test: /\.(png|jpg|gif|webp|svg)$/, loader: 'url-loader' },
     ],
   },
 
@@ -32,4 +33,15 @@ module.exports = (_env, argv) => ({
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'), // Compile into a folder called "dist"
   },
+
+  // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/app/index.html',
+      filename: 'ui.html',
+      chunks: ['ui'],
+      cache: false,
+    }),
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]),
+  ],
 });

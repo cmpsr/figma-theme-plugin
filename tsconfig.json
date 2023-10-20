@@ -4,6 +4,8 @@
     "lib": ["es6", "DOM"],
     "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
     "outDir": "dist/",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react",
+    "moduleResolution": "node"
   }
 }

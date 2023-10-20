@@ -17,6 +17,13 @@ export const THEME_PREFIXES = {
   },
 };
 
+export const LOCAL_VARIABLES_PREFIXES = {
+  COLORS: 'Color/',
+  RADIUS: 'Radii/',
+  SPACINGS: 'Spacing/',
+  BREAKPOINTS: 'Breakpoint/',
+};
+
 export const PAGE_IDS = {
   BREAKPOINTS: '809:9977',
   COLORS: '806:9205',
@@ -30,6 +37,7 @@ export const PAGE_IDS = {
 export const MESSAGE_ACTIONS = {
   DOWNLOAD: 'download',
   CLOSE_PLUGIN: 'closePlugin',
+  GET_THEME_MODES: 'getThemeModes',
 };
 
 export const BREAKPOINTS = {

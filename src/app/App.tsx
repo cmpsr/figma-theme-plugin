@@ -1,37 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MESSAGE_ACTIONS } from '../plugin/constants';
+import { SELECT_THEME_MODE_ID, useThemeModes } from './hooks/useThemeModes';
 import './styles/ui.css';
 
 export const App = () => {
-  const [availableThemeModes, setAvailableThemeModes] = useState(undefined);
-  const [selectedThemeModeId, selectThemeModeId] = useState(undefined);
-
-  useEffect(() => {
-    getThemeModes();
-
-    const handleMessage = (event) => {
-      const action = event.data?.pluginMessage?.action;
-      const payload = event.data?.pluginMessage?.payload;
-
-      if (action === MESSAGE_ACTIONS.DOWNLOAD) {
-        const anchor = document.createElement('a');
-        const blob = new Blob([JSON.stringify(payload)]);
-        anchor.href = URL.createObjectURL(blob);
-        anchor.download = 'theme.json';
-        anchor.click();
-      }
-
-      if (action === MESSAGE_ACTIONS.GET_THEME_MODES) {
-        setAvailableThemeModes(payload);
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, []);
+  const [state, dispatch] = useThemeModes();
 
   const closePlugin = () => {
     window.parent.postMessage(
@@ -49,18 +22,7 @@ export const App = () => {
       {
         pluginMessage: {
           action: MESSAGE_ACTIONS.DOWNLOAD,
-          payload: { modeId: selectedThemeModeId || availableThemeModes?.defaultModeId },
-        },
-      },
-      '*'
-    );
-  };
-
-  const getThemeModes = () => {
-    window.parent.postMessage(
-      {
-        pluginMessage: {
-          action: MESSAGE_ACTIONS.GET_THEME_MODES,
+          payload: { modeId: state.selectedThemeModeId || state.availableThemeModes?.defaultModeId },
         },
       },
       '*'
@@ -85,7 +47,7 @@ export const App = () => {
           <li>Click on “Add Theme”</li>
           <li>Copy and paste code on JSON Editor</li>
         </ol>
-        {availableThemeModes && (
+        {state.availableThemeModes && (
           <div className="select-container">
             <label htmlFor="themeModeSelect" className="meta">
               Select your theme
@@ -94,10 +56,10 @@ export const App = () => {
               <select
                 className="bold"
                 id="themeModeSelect"
-                value={selectedThemeModeId || availableThemeModes.defaultModeId}
-                onChange={(e) => selectThemeModeId(e.target.value)}
+                value={state.selectedThemeModeId || state.availableThemeModes.defaultModeId}
+                onChange={(e) => dispatch({ type: SELECT_THEME_MODE_ID, payload: e.target.value })}
               >
-                {availableThemeModes.modes.map(({ name, modeId }) => (
+                {state.availableThemeModes.modes.map(({ name, modeId }) => (
                   <option key={modeId} value={modeId}>
                     {name}
                   </option>

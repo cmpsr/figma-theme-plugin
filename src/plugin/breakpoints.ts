@@ -1,15 +1,30 @@
-import { LOCAL_VARIABLES_PREFIXES, PAGE_IDS } from './constants';
+import { LOCAL_VARIABLES_PREFIXES, PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
 
 export class Breakpoints extends Page {
-  private modeId: string;
-
-  constructor(modeId: string) {
+  constructor(private modeId?: string) {
     super(PAGE_IDS.BREAKPOINTS);
-    this.modeId = modeId;
   }
 
-  public get(): Record<string, string> {
+  private setUniversalBreakpoints(): void {
+    // Manually aggregate base/xxl tokens to avoid issues with default chakra breakpoints
+    this.data['base'] = '0px';
+    this.data['xxl'] = this.data['2xl'];
+  }
+
+  private getBreakpointsByTokens(): Record<string, string> {
+    this.traversePage((node: SceneNode) => {
+      if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.BREAKPOINTS)) {
+        const breakpointToken = node.name.replace(THEME_PREFIXES.BREAKPOINTS, '');
+        this.data[breakpointToken] = `${node.width}px`;
+      }
+    });
+    this.setUniversalBreakpoints();
+
+    return this.data;
+  }
+
+  private getBreakpointsbyLocalVariables(): Record<string, string> {
     this.getLocalVariables().forEach((variable) => {
       if (variable.name.startsWith(LOCAL_VARIABLES_PREFIXES.BREAKPOINTS)) {
         const breakpointToken = variable.name.split('/').pop();
@@ -22,10 +37,12 @@ export class Breakpoints extends Page {
         }
       }
     });
-    // Manually aggregate base/xxl tokens to avoid issues with default chakra breakpoints
-    this.data['base'] = '0px';
-    this.data['xxl'] = this.data['2xl'];
+    this.setUniversalBreakpoints();
 
     return this.data;
+  }
+
+  public get(): Record<string, string> {
+    return this.modeId ? this.getBreakpointsbyLocalVariables() : this.getBreakpointsByTokens();
   }
 }

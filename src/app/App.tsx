@@ -29,6 +29,27 @@ export const App = () => {
     );
   };
 
+  const renderInstructions = () => {
+    const firstInstruction = state.availableThemeModes
+      ? 'Select the theme you want to download'
+      : 'Click the “Download file” button.';
+
+    const commonInstructions = [
+      'Go to Contentful > Add Content, type: Theme',
+      'Click on “Add Theme”',
+      'Copy and paste code on JSON Editor',
+    ];
+
+    return (
+      <ol className="bold">
+        <li>{firstInstruction}</li>
+        {commonInstructions.map((instruction, index) => (
+          <li key={index}>{instruction}</li>
+        ))}
+      </ol>
+    );
+  };
+
   return (
     <div>
       <img
@@ -41,12 +62,7 @@ export const App = () => {
           Customize your Composer theme with your brand's colors, fonts, and identity. Here’s how to import your theme
           to Contentful:
         </p>
-        <ol className="bold">
-          <li>Select the theme you want to download</li>
-          <li>Go to Contentful {'>'} Add Content, type: Theme</li>
-          <li>Click on “Add Theme”</li>
-          <li>Copy and paste code on JSON Editor</li>
-        </ol>
+        {renderInstructions()}
         {state.availableThemeModes && (
           <div className="select-container">
             <label htmlFor="themeModeSelect" className="meta">

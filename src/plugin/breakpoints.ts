@@ -2,11 +2,8 @@ import { LOCAL_VARIABLES_PREFIXES, PAGE_IDS, THEME_PREFIXES } from './constants'
 import { Page } from './page';
 
 export class Breakpoints extends Page {
-  private modeId?: string;
-
-  constructor(modeId: string) {
+  constructor(private modeId?: string) {
     super(PAGE_IDS.BREAKPOINTS);
-    this.modeId = modeId;
   }
 
   private setUniversalBreakpoints(): void {
@@ -15,7 +12,7 @@ export class Breakpoints extends Page {
     this.data['xxl'] = this.data['2xl'];
   }
 
-  public getBreakpointsByTokens(): Record<string, string> {
+  private getBreakpointsByTokens(): Record<string, string> {
     this.traversePage((node: SceneNode) => {
       if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.BREAKPOINTS)) {
         const breakpointToken = node.name.replace(THEME_PREFIXES.BREAKPOINTS, '');
@@ -27,7 +24,7 @@ export class Breakpoints extends Page {
     return this.data;
   }
 
-  public getBreakpointsbyLocalVariables(): Record<string, string> {
+  private getBreakpointsbyLocalVariables(): Record<string, string> {
     this.getLocalVariables().forEach((variable) => {
       if (variable.name.startsWith(LOCAL_VARIABLES_PREFIXES.BREAKPOINTS)) {
         const breakpointToken = variable.name.split('/').pop();

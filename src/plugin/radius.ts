@@ -3,14 +3,11 @@ import { Page } from './page';
 import { convertPxToRem } from './utils';
 
 export class Radius extends Page {
-  private modeId?: string;
-
-  constructor(modeId: string) {
+  constructor(private modeId?: string) {
     super(PAGE_IDS.RADIUS);
-    this.modeId = modeId;
   }
 
-  public getRadiisByLocalVariables(): Record<string, string> {
+  private getRadiisByLocalVariables(): Record<string, string> {
     this.getLocalVariables().forEach((variable) => {
       if (variable.name.startsWith(LOCAL_VARIABLES_PREFIXES.RADIUS)) {
         const radiusToken = variable.name.split('/').pop();
@@ -28,7 +25,7 @@ export class Radius extends Page {
     return this.data;
   }
 
-  public getRadiisByTokens(): Record<string, string> {
+  private getRadiisByTokens(): Record<string, string> {
     this.traversePage((node: SceneNode) => {
       if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.RADIUS)) {
         const radiusNode = node as RectangleNode;

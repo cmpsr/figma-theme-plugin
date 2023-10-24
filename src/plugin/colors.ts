@@ -6,11 +6,8 @@ const enum FigmaPaintType {
   GradientLinear = 'GRADIENT_LINEAR',
 }
 export class Colors extends Page {
-  private modeId?: string;
-
-  constructor(modeId: string) {
+  constructor(private modeId?: string) {
     super(PAGE_IDS.COLORS);
-    this.modeId = modeId;
   }
 
   private componentToHex(c: number): string {

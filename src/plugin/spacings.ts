@@ -3,14 +3,11 @@ import { Page } from './page';
 import { convertPxToRem } from './utils';
 
 export class Spacings extends Page {
-  private modeId?: string;
-
-  constructor(modeId: string) {
+  constructor(private modeId?: string) {
     super(PAGE_IDS.SPACINGS);
-    this.modeId = modeId;
   }
 
-  public getSpacingsByLocalVariables(): Record<string, string> {
+  private getSpacingsByLocalVariables(): Record<string, string> {
     this.getLocalVariables().forEach((variable) => {
       if (variable.name.startsWith(LOCAL_VARIABLES_PREFIXES.SPACINGS)) {
         const spacingToken = variable.name.split('/').pop();
@@ -28,7 +25,7 @@ export class Spacings extends Page {
     return this.data;
   }
 
-  public getSpacingsByTokens(): Record<string, string> {
+  private getSpacingsByTokens(): Record<string, string> {
     this.traversePage((node: SceneNode) => {
       if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.SPACINGS)) {
         const spacingToken = node.name.replace(THEME_PREFIXES.SPACINGS, '');

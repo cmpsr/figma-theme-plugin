@@ -7,9 +7,7 @@ function getThemeModes() {
       .getLocalVariableCollections()
       .find((variableCollection) => variableCollection.name.includes('Composer'));
 
-    if (!variableCollection) {
-      throw new Error('No Composer Variable Collection found');
-    }
+    if (!variableCollection) return;
 
     figma.ui.postMessage({
       action: MESSAGE_ACTIONS.GET_THEME_MODES,

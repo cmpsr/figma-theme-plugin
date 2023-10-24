@@ -1,16 +1,16 @@
-import { LOCAL_VARIABLES_PREFIXES, PAGE_IDS } from './constants';
+import { LOCAL_VARIABLES_PREFIXES, PAGE_IDS, THEME_PREFIXES } from './constants';
 import { Page } from './page';
 import { convertPxToRem } from './utils';
 
 export class Radius extends Page {
-  private modeId: string;
+  private modeId?: string;
 
   constructor(modeId: string) {
     super(PAGE_IDS.RADIUS);
     this.modeId = modeId;
   }
 
-  public get(): Record<string, string> {
+  public getRadiisByLocalVariables(): Record<string, string> {
     this.getLocalVariables().forEach((variable) => {
       if (variable.name.startsWith(LOCAL_VARIABLES_PREFIXES.RADIUS)) {
         const radiusToken = variable.name.split('/').pop();
@@ -26,5 +26,23 @@ export class Radius extends Page {
     });
 
     return this.data;
+  }
+
+  public getRadiisByTokens(): Record<string, string> {
+    this.traversePage((node: SceneNode) => {
+      if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.RADIUS)) {
+        const radiusNode = node as RectangleNode;
+        const radiusToken = node.name.replace(THEME_PREFIXES.RADIUS, '');
+        if (radiusNode.cornerRadius !== figma.mixed) {
+          this.data[radiusToken] = convertPxToRem(radiusNode.cornerRadius);
+        }
+      }
+    });
+
+    return this.data;
+  }
+
+  public get(): Record<string, string> {
+    return this.modeId ? this.getRadiisByLocalVariables() : this.getRadiisByTokens();
   }
 }

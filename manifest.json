@@ -5,5 +5,6 @@
   "main": "./dist/main.js",
   "editorType": ["figma", "dev"],
   "capabilities": ["inspect"],
-  "ui": "./dist/ui.html"
+  "ui": "./dist/ui.html",
+  "networkAccess": { "allowedDomains": ["https://storage.googleapis.com"] }
 }

@@ -8,14 +8,15 @@ export class Texts extends Page {
     super(PAGE_IDS.TEXTS);
   }
 
-  private normalizeTextStyles(textStyle: TextStyle) {
+  private normalizeTextStyles(textNode: TextNode) {
+    const textStyle = figma.getStyleById(textNode.textStyleId as string) as TextStyle;
     const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
-    const normalizedFontWeight = normalizeTextFontWeight(fontName.style);
     const lineHeight = textStyle.lineHeight as Unit;
+
     return {
       color: 'text-primary',
       fontSize: convertPxToRem(fontSize),
-      fontWeight: normalizedFontWeight,
+      fontWeight: textNode.fontWeight || normalizeTextFontWeight(fontName.style),
       letterSpacing: convertPxToRem(letterSpacing.value),
       lineHeight: convertPxToRem(lineHeight.value),
       textDecoration: textDecoration.toLowerCase() || 'none',
@@ -23,8 +24,8 @@ export class Texts extends Page {
     };
   }
 
-  private setResponsiveTextStyles(token: string, textStyles: TextStyle, breakpoint: string) {
-    const textStylesNormalized = this.normalizeTextStyles(textStyles);
+  private setResponsiveTextStyles(token: string, textNode: TextNode, breakpoint: string) {
+    const textStylesNormalized = this.normalizeTextStyles(textNode);
     this.data[token] = this.addTextStyleBreakpoint({
       previousTextStyles: this.data[token],
       newTextStyles: textStylesNormalized,
@@ -62,7 +63,6 @@ export class Texts extends Page {
       if (this.nodeStartsWithPrefix(node.name, THEME_PREFIXES.TEXTS.DEFAULT)) {
         const textNode = node as TextNode;
         const textNodeNameNormalized = normalizeTextSuffixToken(textNode.name);
-        const textStyle = figma.getStyleById(textNode.textStyleId as string) as TextStyle;
 
         const isDesktopText = textNodeNameNormalized.startsWith(THEME_PREFIXES.TEXTS.DESKTOP);
         const isMobileText = textNodeNameNormalized.startsWith(THEME_PREFIXES.TEXTS.MOBILE);
@@ -73,15 +73,15 @@ export class Texts extends Page {
 
         if (isLinkText) {
           this.data[defaultTextToken] = {
-            ...this.normalizeTextStyles(textStyle),
+            ...this.normalizeTextStyles(textNode),
             color: 'text-link-accent-default',
           };
         } else if (isMobileText) {
-          this.setResponsiveTextStyles(mobileTextToken, textStyle, BREAKPOINTS.BASE);
+          this.setResponsiveTextStyles(mobileTextToken, textNode, BREAKPOINTS.BASE);
         } else if (isDesktopText) {
-          this.setResponsiveTextStyles(desktopTextToken, textStyle, BREAKPOINTS.LARGE);
+          this.setResponsiveTextStyles(desktopTextToken, textNode, BREAKPOINTS.LARGE);
         } else {
-          this.data[defaultTextToken] = this.normalizeTextStyles(textStyle);
+          this.data[defaultTextToken] = this.normalizeTextStyles(textNode);
         }
       }
     });

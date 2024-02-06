@@ -23,7 +23,7 @@ export class TextsPairings extends Page {
           this.data[textPairingToken] = {
             label: { variant: {} },
             subLabel: { variant: {} },
-            columnGap: {},
+            container: { gap: {} },
           };
         }
 
@@ -38,7 +38,7 @@ export class TextsPairings extends Page {
           this.data[textPairingToken][type].variant[sizeSuffix] = textToken;
         });
 
-        this.data[textPairingToken].columnGap[sizeSuffix] = itemSpacing;
+        this.data[textPairingToken].container.gap[sizeSuffix] = itemSpacing;
       }
     });
 
@@ -52,7 +52,7 @@ export class TextsPairings extends Page {
     Object.keys(this.data).forEach((token) => {
       this.simplifyVariantProperties(token, 'label');
       this.simplifyVariantProperties(token, 'subLabel');
-      this.simplifyColumnGap(token);
+      this.simplifyContainerGap(token);
     });
   }
 
@@ -68,12 +68,12 @@ export class TextsPairings extends Page {
     }
   }
 
-  private simplifyColumnGap(token: string) {
-    const gap = this.data[token].columnGap;
+  private simplifyContainerGap(token: string) {
+    const gap = this.data[token].container.gap;
 
     if (typeof gap !== 'string' && (gap.base === gap.md || !gap.md || !gap.base)) {
       const definedGapValue = gap.base || gap.md;
-      this.data[token].columnGap = definedGapValue;
+      this.data[token].container.gap = definedGapValue;
     }
   }
 }

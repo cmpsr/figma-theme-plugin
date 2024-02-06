@@ -50,32 +50,30 @@ export class TextsPairings extends Page {
   // Simplifies the data structure by reducing variants to single values when identical across breakpoints or when only one breakpoint value is present.
   private simplifyDataStructure() {
     Object.keys(this.data).forEach((token) => {
-      Object.keys(this.data[token]).forEach((property) => {
-        const item = this.data[token][property];
-        let simplifiedValue: string | undefined;
-
-        // Determine if the current item is a variant or directly a gap definition.
-        if (item.variant) {
-          simplifiedValue = this.getSimplifiedValue(item.variant.base, item.variant.md);
-        } else {
-          simplifiedValue = this.getSimplifiedValue(item.base, item.md);
-        }
-
-        if (simplifiedValue !== undefined) {
-          this.data[token][property] = simplifiedValue;
-        }
-      });
+      this.simplifyVariantProperties(token, 'label');
+      this.simplifyVariantProperties(token, 'subLabel');
+      this.simplifyColumnGap(token);
     });
   }
 
-  private getSimplifiedValue(base: string | undefined, md: string | undefined): string | undefined {
-    // Return the value directly if both are the same or if only one is provided.
-    if (base === md || !md) {
-      return base;
-    } else if (!base) {
-      return md;
+  private simplifyVariantProperties(token: string, property: 'label' | 'subLabel') {
+    const item = this.data[token][property];
+
+    if (item.variant) {
+      const { base, md } = item.variant;
+
+      if (base === md || !md) {
+        this.data[token][property].variant = base;
+      }
     }
-    // Return undefined if no simplification is possible (both values differ).
-    return undefined;
+  }
+
+  private simplifyColumnGap(token: string) {
+    const gap = this.data[token].columnGap;
+
+    if (typeof gap !== 'string' && (gap.base === gap.md || !gap.md || !gap.base)) {
+      const definedGapValue = gap.base || gap.md;
+      this.data[token].columnGap = definedGapValue;
+    }
   }
 }

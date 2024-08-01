@@ -12,6 +12,7 @@ export class Texts extends Page {
     const textStyle = figma.getStyleById(textNode.textStyleId as string) as TextStyle;
     const { fontSize, fontName, letterSpacing, textDecoration } = textStyle;
     const lineHeight = textStyle.lineHeight as Unit;
+    const isFontStyleItalic = /italic/i.test(fontName.style);
 
     return {
       color: 'text-primary',
@@ -21,6 +22,7 @@ export class Texts extends Page {
       lineHeight: convertPxToRem(lineHeight.value),
       textDecoration: textDecoration.toLowerCase() || 'none',
       fontFamily: fontName.family,
+      fontStyle: isFontStyleItalic ? 'italic' : 'normal',
     };
   }
 

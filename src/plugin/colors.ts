@@ -5,6 +5,7 @@ const enum FigmaPaintType {
   Solid = 'SOLID',
   GradientLinear = 'GRADIENT_LINEAR',
 }
+
 export class Colors extends Page {
   constructor(private modeId?: string) {
     super(PAGE_IDS.COLORS);
@@ -60,6 +61,15 @@ export class Colors extends Page {
     if (!gradientTransform || !gradientStops) {
       return '';
     }
+
+    const gradientTransformData = this.calculateGradientTransformData(gradientTransform);
+    const rotationTruthy = this.calculateRotationTruthy(gradientTransformData);
+    const rotationData = this.calculateRotationData(gradientTransformData, { x: 0, y: 1 });
+
+    return ((Math.atan2(rotationData.y * rotationTruthy, rotationData.x * rotationTruthy) / Math.PI) * 180).toFixed(2);
+  }
+
+  private calculateGradientTransformData(gradientTransform: number[][]) {
     let gradientTransformData = {
       m00: 1,
       m01: 0,
@@ -84,16 +94,25 @@ export class Colors extends Page {
           deltaVal,
       };
     }
-    const rotationTruthy =
-      gradientTransformData.m00 * gradientTransformData.m11 - gradientTransformData.m01 * gradientTransformData.m10 > 0
-        ? 1
-        : -1;
-    let rotationData = ((data, param: { x: number; y: number }) => ({
+    return gradientTransformData;
+  }
+
+  private calculateRotationTruthy(gradientTransformData: { m00: number; m01: number; m10: number; m11: number }) {
+    return gradientTransformData.m00 * gradientTransformData.m11 -
+      gradientTransformData.m01 * gradientTransformData.m10 >
+      0
+      ? 1
+      : -1;
+  }
+
+  private calculateRotationData(
+    data: { m00: number; m01: number; m10: number; m11: number },
+    param: { x: number; y: number }
+  ) {
+    return {
       x: data.m00 * param.x + data.m01 * param.y,
       y: data.m10 * param.x + data.m11 * param.y,
-    }))(gradientTransformData, { x: 0, y: 1 });
-
-    return ((Math.atan2(rotationData.y * rotationTruthy, rotationData.x * rotationTruthy) / Math.PI) * 180).toFixed(2);
+    };
   }
 
   private getLinearGradient(paint: GradientPaint) {
